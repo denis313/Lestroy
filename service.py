@@ -15,5 +15,5 @@ class IsPhone(BaseFilter):
             if message.contact.phone_number:
                 return True
         except AttributeError:
-            match = re.fullmatch(r'8\d{10}', message.text)
+            match = re.fullmatch(r'(?:\+7|8)\d{10}', message.text)
             return bool(match)
