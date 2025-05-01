@@ -143,7 +143,7 @@ async def phone(message: Message, state: FSMContext):
     await state.update_data(phone=phone_number)
     data = await state.get_data()
     await state.clear()
-    await bot.send_message(chat_id=message.from_user.id, text=f'Сообщение о каждом клиенте\n\n'
+    await bot.send_message(chat_id=1078098076, text=f'Сообщение о каждом клиенте\n\n'
                                
                                 f'Площадь: {data['square']}\n'
                                 f'Тип жилья: {data['type_building']}\n'
