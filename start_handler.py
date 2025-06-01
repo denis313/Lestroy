@@ -62,9 +62,9 @@ async def type_building(message: Message, state: FSMContext):
     await state.update_data(type_building=message.text)
     await bot.send_message(
         chat_id=message.chat.id,
-        text=lexicon['phone'],
-            reply_markup=contact_keyboard.as_markup(resize_keyboard=True))
-    await state.set_state(Cost.phone)
+        text=lexicon['project'],
+            reply_markup=keyboard_project().as_markup(resize_keyboard=True))
+    await state.set_state(Cost.project)
 
 
 @router.message(StateFilter(Cost.type_building))
@@ -74,21 +74,21 @@ async def no_type_building(message: Message):
             text=lexicon['no_type_building'])
 
 
-# @router.message(StateFilter(Cost.project), F.text.in_({'Да', 'Нет'}))
-# async def project(message: Message, state: FSMContext):
-#     await state.update_data(project=message.text)
-#     await bot.send_message(
-#         chat_id=message.chat.id,
-#         text=lexicon['district'],
-#         reply_markup=ReplyKeyboardRemove())
-#     await state.set_state(Cost.district)
-#
-#
-# @router.message(StateFilter(Cost.project))
-# async def no_project(message: Message, state: FSMContext):
-#     await bot.send_message(
-#         chat_id=message.chat.id,
-#         text=lexicon['no_project'])
+@router.message(StateFilter(Cost.project), F.text.in_({'Да', 'Нет'}))
+async def project(message: Message, state: FSMContext):
+    await state.update_data(project=message.text)
+    await bot.send_message(
+        chat_id=message.chat.id,
+        text=lexicon['phone'],
+        reply_markup=contact_keyboard.as_markup(resize_keyboard=True))
+    await state.set_state(Cost.phone)
+
+
+@router.message(StateFilter(Cost.project))
+async def no_project(message: Message, state: FSMContext):
+    await bot.send_message(
+        chat_id=message.chat.id,
+        text=lexicon['no_project'])
 
 
 # @router.message(StateFilter(Cost.district), F.text.isalpha())
