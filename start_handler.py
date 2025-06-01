@@ -63,7 +63,7 @@ async def type_building(message: Message, state: FSMContext):
     await bot.send_message(
         chat_id=message.chat.id,
         text=lexicon['project'],
-            reply_markup=keyboard_project().as_markup(resize_keyboard=True))
+            reply_markup=keyboard_project())
     await state.set_state(Cost.project)
 
 
