@@ -5,7 +5,7 @@ from aiogram.filters import BaseFilter
 
 
 def get_photo():
-    photo = FSInputFile(f'photo_2025-04-09_21-46-40.png', filename=f'photo_img')
+    photo = FSInputFile(f'photo_2025-07-16_00-50-35.jpg', filename=f'photo_img')
     return photo
 
 
