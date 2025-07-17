@@ -11,7 +11,7 @@ lexicon = {'start': '<b>Мы — строительная компания по�
                     '+7 (921) 906-69-88 \n'
                     'Наши <b>работы: </b>https://t.me/kamynin_art\n'
                     '👉 YouTube - https://youtube.com/@kamyninart?si=uA3ncbLfuqJGoNUX\n'
-                    '🖥RuTube - https://rutube.ru/channel/19497335\n'
+                    '🖥RuTube - https://rutube.ru/channel/66923710\n'
                     '🎬Dzen - https://dzen.ru/b/aHkAEJXQ3hKvIWTp\n'
                     '💬VK - https://vk.com/kamyninart',
            'start_two': 'Что дальше?\nВы можете рассчитать примерную стоимость ремонта своей квартиры по кнопкам ниже. '
