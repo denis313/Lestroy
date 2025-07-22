@@ -70,8 +70,8 @@ async def type_building(message: Message, state: FSMContext):
 @router.message(StateFilter(Cost.type_building))
 async def no_type_building(message: Message):
     await bot.send_message(
-            chat_id=message.chat.id,
-            text=lexicon['no_type_building'])
+        chat_id=message.chat.id,
+        text=lexicon['no_type_building'])
 
 #
 # @router.message(StateFilter(Cost.project), F.text.in_({'Да', 'Нет'}))
