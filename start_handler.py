@@ -9,14 +9,19 @@ from aiogram.fsm.state import default_state, StatesGroup, State
 from aiogram.types import Message, CallbackQuery, InputMediaPhoto, FSInputFile, ReplyKeyboardRemove
 
 from bot import bot
+from config import db_config
 from keyboards import (contact_keyboard, IsIdPrepayment, keyboard_start, keyboard_type,
                        keyboard_project)
 from lexicon import lexicon
+from requests import DatabaseManager
 from service import get_photo, IsPhone
 
 router = Router()
 router.message.filter(F.chat.type == 'private')
 photo = get_photo()
+dsn = db_config()
+db_manager = DatabaseManager(dsn=dsn)
+
 
 @router.message(F.text.in_({'/start', 'О компании'}), StateFilter(default_state))
 async def page_one(message: Message):
@@ -28,9 +33,6 @@ async def page_one(message: Message):
 class Cost(StatesGroup):
     square = State()
     type_building = State()
-    project = State()
-    district = State()
-    name = State()
     phone = State()
 
 
@@ -40,6 +42,8 @@ async def calculate_cost(message: Message, state: FSMContext):
                          text=lexicon['square'],
         reply_markup=None)
     await state.set_state(Cost.square)
+    await db_manager.create_tables()
+    await db_manager.add_user(user_data={'user_id': message.from_user.id})
 
 
 @router.message(StateFilter(Cost.square), F.text.isdigit())
@@ -142,11 +146,12 @@ async def phone(message: Message, state: FSMContext):
     await state.update_data(phone=phone_number)
     data = await state.get_data()
     await state.clear()
+    await db_manager.delete_user(user_id=message.from_user.id)
     await bot.send_message(chat_id=1078098076, text=f'Сообщение о каждом клиенте\n\n'
-                               f'Проект: {data['project']}\n'
                                 f'Площадь: {data['square']}\n'
                                 f'Тип жилья: {data['type_building']}\n'
                                 f'Телефон: {data['phone']}')
+
 
 
 @router.message(StateFilter(Cost.phone), ~IsPhone())

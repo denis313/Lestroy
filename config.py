@@ -16,3 +16,10 @@ def load_config(path: str | None = None) -> Config:
     env = environs.Env()
     env.read_env(path)
     return Config(tg_bot=TgBot(token=env('BOT_TOKEN')))
+
+
+def db_config(path: str | None = None) -> str:
+    env = environs.Env()
+    env.read_env(path)
+    url = env('DATABASE_URL')
+    return url

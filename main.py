@@ -1,16 +1,15 @@
 import asyncio
 import logging
 from aiogram import Dispatcher
-
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import start_handler
 from bot import bot
-
+from check import check_users
 
 # Инициализируем логгер модуля
 logger = logging.getLogger(__name__)
 
 
-# Функция конфигурирования и запуска бота
 async def main():
     # Конфигурируем логирование
     logging.basicConfig(level=logging.DEBUG,
@@ -21,6 +20,9 @@ async def main():
     # Инициализируем бот и диспетчер
     dp = Dispatcher()
 
+    scheduler = AsyncIOScheduler()
+    scheduler.add_job(check_users, 'interval', week=1)
+    scheduler.start()
 
 
     # Регистриуем роутеры в диспетчере
