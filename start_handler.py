@@ -33,6 +33,7 @@ async def page_one(message: Message):
 class Cost(StatesGroup):
     square = State()
     type_building = State()
+    project = State()
     phone = State()
 
 
@@ -66,9 +67,10 @@ async def type_building(message: Message, state: FSMContext):
     await state.update_data(type_building=message.text)
     await bot.send_message(
         chat_id=message.chat.id,
-        text=lexicon['phone'],
-        reply_markup=contact_keyboard.as_markup(resize_keyboard=True))
-    await state.set_state(Cost.phone)
+        text=lexicon['project'],
+        reply_markup=keyboard_project()
+    )
+    await state.set_state(Cost.project)
 
 
 @router.message(StateFilter(Cost.type_building))
@@ -77,15 +79,15 @@ async def no_type_building(message: Message):
         chat_id=message.chat.id,
         text=lexicon['no_type_building'])
 
-#
-# @router.message(StateFilter(Cost.project), F.text.in_({'Да', 'Нет'}))
-# async def project(message: Message, state: FSMContext):
-#     await state.update_data(project=message.text)
-#     await bot.send_message(
-#         chat_id=message.chat.id,
-#         text=lexicon['phone'],
-#         reply_markup=contact_keyboard.as_markup(resize_keyboard=True))
-#     await state.set_state(Cost.phone)
+
+@router.message(StateFilter(Cost.project), F.text.in_({'Да', 'Нет'}))
+async def project(message: Message, state: FSMContext):
+    await state.update_data(project=message.text)
+    await bot.send_message(
+        chat_id=message.chat.id,
+        text=lexicon['phone'],
+        reply_markup=contact_keyboard.as_markup(resize_keyboard=True))
+    await state.set_state(Cost.phone)
 #
 #
 # @router.message(StateFilter(Cost.project))
@@ -147,7 +149,8 @@ async def phone(message: Message, state: FSMContext):
     data = await state.get_data()
     await state.clear()
     await db_manager.delete_user(user_id=message.from_user.id)
-    await bot.send_message(chat_id=1078098076, text=f'Сообщение о каждом клиенте\n\n'
+    await bot.send_message(chat_id=1087502760, text=f'Сообщение о каждом клиенте\n\n'
+                                f'Проект: {data['project']}\n'
                                 f'Площадь: {data['square']}\n'
                                 f'Тип жилья: {data['type_building']}\n'
                                 f'Телефон: {data['phone']}')
